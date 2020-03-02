@@ -5,13 +5,18 @@ module.exports = async (req, res) => {
 
   const img = await load(src);
 
-  if (w || h)
-    await resize(img, w, h);
-
-  if (b)
-    await blur(img, b);
-
-  await optimizeForWeb(img, q);
-
-  send(res, img);
+  if (img) {
+    if (w || h)
+      await resize(img, w, h);
+  
+    if (b)
+      await blur(img, b);
+  
+    await optimizeForWeb(img, q);
+  
+    send(res, img);
+  }
+  else {
+    res.status(404).send('Not found.');
+  }
 };
