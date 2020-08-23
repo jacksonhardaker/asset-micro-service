@@ -3,7 +3,7 @@ const { send, load, resize, optimizeForWeb, blur } = require('../utils');
 
 module.exports = async (req, res) => {
   const { pathname } = parse(req.url);
-  const { src, w, h, q, b, cover, contain } = req.query;
+  const { src, w, h, q, b, cover, contain, raw } = req.query;
   const path = src || pathname;
 
   const img = await load(path);
@@ -15,7 +15,8 @@ module.exports = async (req, res) => {
     if (b)
       await blur(img, b);
 
-    await optimizeForWeb(img, q);
+    if (!raw)
+      await optimizeForWeb(img, q);
 
     send(res, img);
   }
