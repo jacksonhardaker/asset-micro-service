@@ -9,37 +9,22 @@ import { Select } from 'baseui/select';
 import { Button, SIZE } from 'baseui/button';
 import { useAssetOptionsDispatch, useAssetOptionsState, actions } from '../context/AssetOptionsContext';
 
-const baseURL = 'https://asset-micro-service.now.sh/api/process';
-
 export const IndexPage = () => {
   const dispatch = useAssetOptionsDispatch();
-  const state = useAssetOptionsState();
+  const { generateURL, ...state } = useAssetOptionsState();
 
   const [blurEnabled, setBlurEnabled] = useState(false);
   const [optimizeForWebEnabled, setOptimizeForWebEnabled] = useState(true);
-  
+
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState(null);
 
   const onSubmit = (e) => {
     e.preventDefault();
     setIsLoading(true);
-    const params = {
-      src: state.src,
-      w: state.width || undefined,
-      h: state.height || undefined,
-      b: state.blur[0] > 0 && blurEnabled ? state.blur[0] : undefined,
-      raw: !optimizeForWebEnabled || undefined,
-      q: optimizeForWebEnabled ? state.quality : undefined,
-    };
-
-    const cropParams = state.crop[0] && state.alignment[0] ? {
-      [state.crop[0].id]: state.alignment[0].id
-    } : {};
-
-    const queryString = Object.entries({ ...params, ...cropParams }).reduce((queryString, [key, value]) => value ? `${queryString}&${key}=${value}` : queryString, '');
-
-    setResult(`${baseURL}?${queryString}`);
+    setResult(
+      generateURL()
+    );
   }
 
   return (
@@ -152,7 +137,7 @@ export const IndexPage = () => {
         <Grid>
           <Cell span={12}>
             <Button
-              disabled={!state.src}
+              disabled={!state.src || (generateURL() === result)}
               isLoading={isLoading}
               size={SIZE.large}>
               Generate</Button>

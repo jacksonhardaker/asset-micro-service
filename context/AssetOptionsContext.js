@@ -1,4 +1,6 @@
-import { useContext, createContext, useReducer } from 'react';
+import { useContext, createContext, useReducer, useCallback } from 'react';
+
+const baseURL = 'https://asset-micro-service.now.sh/api/process';
 
 export const actions = {
   SET_BLUR: 'SET_BLUR',
@@ -47,8 +49,38 @@ const reducer = (state, action) => {
 export const AssetOptionsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialOptions);
 
+  const generateURL = useCallback(() => {
+    const [blur] = state.blur;
+    const [quality] = state.quality;
+    const optimizeForWebEnabled = quality < 100;
+    const [crop] = state.crop;
+    const [alignment] = state.alignment;
+    
+    const params = {
+      src: state.src,
+      w: state.width || undefined,
+      h: state.height || undefined,
+      b: blur > 0 ? blur : undefined,
+      raw: !optimizeForWebEnabled || undefined,
+      q: optimizeForWebEnabled ? quality : undefined,
+    };
+
+    const cropParams = crop && alignment ? {
+      [crop.id]: alignment.id
+    } : {};
+
+    const queryString = Object.entries({ ...params, ...cropParams }).reduce((queryString, [key, value]) => value ? `${queryString}&${key}=${value}` : queryString, '');
+
+    return `${baseURL}?${queryString}`;
+  }, [state]);
+
+  const value = {
+    ...state,
+    generateURL,
+  };
+
   return (
-    <assetOptionsState.Provider value={state}>
+    <assetOptionsState.Provider value={value}>
       <assetOptionsDispatch.Provider value={dispatch}>
         {children}
       </assetOptionsDispatch.Provider>
