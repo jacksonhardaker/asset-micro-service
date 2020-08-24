@@ -1,10 +1,16 @@
 import { IndexPage } from "../components/IndexPage";
 import { AssetOptionsProvider } from "../context/AssetOptionsContext";
+import { ResultsProvider } from "../context/ResultsContext";
+import { LoadingProvider } from "../context/LoadingContext";
 
 export default function Index() {
   return (
-    <AssetOptionsProvider>
-      <IndexPage />
-    </AssetOptionsProvider>
-  )
+    <LoadingProvider>
+      <ResultsProvider>
+        <AssetOptionsProvider>
+          <IndexPage />
+        </AssetOptionsProvider>
+      </ResultsProvider>
+    </LoadingProvider>
+  );
 }

@@ -1,4 +1,5 @@
 import { useContext, createContext, useReducer, useCallback } from 'react';
+import { useResults } from './ResultsContext';
 
 const baseURL = 'https://asset-micro-service.now.sh/api/process';
 
@@ -48,6 +49,7 @@ const reducer = (state, action) => {
 
 export const AssetOptionsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialOptions);
+  const { setResult } = useResults();
 
   const generateURL = useCallback(() => {
     const [blur] = state.blur;
@@ -74,9 +76,16 @@ export const AssetOptionsProvider = ({ children }) => {
     return `${baseURL}?${queryString}`;
   }, [state]);
 
+  const generateAndStoreResult = () => {
+    setResult(
+      generateURL()
+    );
+  }
+
   const value = {
     ...state,
     generateURL,
+    generateAndStoreResult
   };
 
   return (
