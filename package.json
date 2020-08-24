@@ -4,7 +4,9 @@
   "description": "Asset cdn hosted on zeit now",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "next build",
+    "start": "next start",
+    "dev": "next dev"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,12 @@
   },
   "homepage": "https://github.com/jacksonhardaker/asset-micro-service#readme",
   "dependencies": {
-    "jimp": "^0.9.3"
+    "baseui": "^9.95.2",
+    "jimp": "^0.9.3",
+    "next": "^9.5.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "styletron-engine-atomic": "^1.4.6",
+    "styletron-react": "^5.2.7"
   }
 }
