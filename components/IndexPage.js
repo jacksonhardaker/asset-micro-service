@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Heading, HeadingLevel } from 'baseui/heading';
 import { Grid, Cell } from 'baseui/layout-grid';
 import { Results } from './Results';
