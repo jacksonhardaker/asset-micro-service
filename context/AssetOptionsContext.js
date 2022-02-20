@@ -1,8 +1,6 @@
 import { useContext, createContext, useReducer, useCallback } from 'react';
 import { useResults } from './ResultsContext';
 
-const baseURL = 'api/sharp';
-
 export const actions = {
   SET_BLUR: 'SET_BLUR',
   SET_QUALITY: 'SET_QUALITY',
@@ -70,7 +68,7 @@ export const AssetOptionsProvider = ({ children }) => {
 
     const queryString = Object.entries({ ...params }).reduce((queryString, [key, value]) => value ? `${queryString}&${key}=${value}` : queryString, '');
 
-    return `${window.location.origin}/api/sharp?${queryString}`;
+    return `${window.location.origin}/api/process?${queryString}`;
   }, [state]);
 
   const generateAndStoreResult = () => {
