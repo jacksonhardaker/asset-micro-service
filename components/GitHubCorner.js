@@ -1,3 +1,6 @@
+/**
+ * https://tholman.com/github-corners/
+ */
 export const GithubCorner = () => {
   return (
     <>
