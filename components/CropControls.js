@@ -12,15 +12,15 @@ const cropOptions = [
 ];
 
 const alignmentOptions = [
-  { label: 'Top Left', id: 'lt' },
-  { label: 'Middle Left', id: 'lm' },
-  { label: 'Bottom Left', id: 'lb' },
-  { label: 'Top Center', id: 'ct' },
-  { label: 'Middle Center', id: 'cm' },
-  { label: 'Bottom Center', id: 'cb' },
-  { label: 'Top Right', id: 'rt' },
-  { label: 'Middle Right', id: 'rm' },
-  { label: 'Bottom Right', id: 'rb' },
+  { label: 'Northwest', id: 'northwest' },
+  { label: 'North', id: 'north' },
+  { label: 'Northeast', id: 'northeast' },
+  { label: 'West', id: 'west' },
+  { label: 'Center', id: 'center' },
+  { label: 'East', id: 'east' },
+  { label: 'Southwest', id: 'southwest' },
+  { label: 'South', id: 'south' },
+  { label: 'Southeast', id: 'southeast' },
 ];
 
 const miscSelectOptions = {
@@ -37,10 +37,12 @@ export const CropControls = () => {
   const { crop, alignment } = useAssetOptionsState();
   const dispatch = useAssetOptionsDispatch();
 
+  const [currentCrop] = crop;
+
   return (
     <Cell span={12}>
       <FormControl
-        label={() => "Image Crop"}>
+        label={() => "Fit"}>
         <Select
           options={cropOptions}
           value={crop}
@@ -49,8 +51,8 @@ export const CropControls = () => {
           {...miscSelectOptions}
         />
       </FormControl>
-      {crop[0] && <FormControl
-        label={() => "Crop Alignment"}>
+      {(currentCrop?.id === 'contain' || currentCrop?.id === 'cover') && <FormControl
+        label={() => "Position"}>
         <Select
           options={alignmentOptions}
           value={alignment}

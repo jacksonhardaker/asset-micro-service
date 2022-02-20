@@ -64,14 +64,11 @@ export const AssetOptionsProvider = ({ children }) => {
       h: state.height || undefined,
       b: blur > 0 ? blur : undefined,
       q: optimizeForWebEnabled ? quality : undefined,
-      fit: crop?.id || undefined
+      f: crop?.id || undefined,
+      p: alignment?.id || undefined,
     };
 
-    // const cropParams = crop && alignment ? {
-    //   [crop.id]: alignment.id
-    // } : {};
-
-    const queryString = Object.entries({ ...params, /*...cropParams*/ }).reduce((queryString, [key, value]) => value ? `${queryString}&${key}=${value}` : queryString, '');
+    const queryString = Object.entries({ ...params }).reduce((queryString, [key, value]) => value ? `${queryString}&${key}=${value}` : queryString, '');
 
     return `${window.location.origin}/api/sharp?${queryString}`;
   }, [state]);

@@ -1,16 +1,16 @@
 import sharp from 'sharp';
 
 export default async (req, res) => {
-  const { src, w, h, q, b, f, g } = req.query;
+  const { src, w, h, q, b, f, p } = req.query;
 
   if (f && sharp.fit[f] === undefined)
     throw Error(`Invalid 'fit' parameter: ${f}`);
 
-  if (g && sharp.gravity[g] === undefined)
-    throw Error(`Invalid 'gravity' parameter: ${g}`);
+  if (p && sharp.gravity[p] === undefined)
+    throw Error(`Invalid 'gravity' parameter: ${p}`);
 
   const transformations = [
-    ['resize', w || h ? { width: +w || undefined, height: +h || undefined, fit: sharp.fit[f], position: sharp.gravity[g] } : null],
+    ['resize', w || h ? { width: +w || undefined, height: +h || undefined, fit: sharp.fit[f], position: sharp.gravity[p] } : null],
     ['blur', +b],
     ['jpeg', q ? { quality: +q } : null]
   ];
