@@ -24,5 +24,8 @@ export default async (req, res) => {
     return param ? img[key](param) : img;
   }, sharp(srcImgBuffer));
 
+  res.writeHead(200, {
+    'Cache-Control': 'public, max-age=31536000',
+  });
   res.end(await img.toBuffer());
 };
