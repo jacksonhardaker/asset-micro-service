@@ -1,7 +1,7 @@
 {
   "name": "asset-micro-service",
   "version": "1.0.0",
-  "description": "Asset cdn hosted on zeit now",
+  "description": "Asset cdn hosted on Vercel",
   "main": "index.js",
   "scripts": {
     "build": "next build",
@@ -19,12 +19,12 @@
   },
   "homepage": "https://github.com/jacksonhardaker/asset-micro-service#readme",
   "dependencies": {
-    "baseui": "^9.95.2",
-    "jimp": "^0.9.3",
-    "next": "^9.5.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "styletron-engine-atomic": "^1.4.6",
-    "styletron-react": "^5.2.7"
+    "baseui": "^10.9.0",
+    "jimp": "^0.16.1",
+    "next": "^12.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "styletron-engine-atomic": "^1.4.8",
+    "styletron-react": "^6.0.2"
   }
 }
