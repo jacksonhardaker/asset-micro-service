@@ -11,6 +11,7 @@ export const actions = {
   SET_ALIGNMENT: 'SET_ALIGNMENT',
   SET_SRC: 'SET_SRC',
   RESET: 'RESET',
+  SET_MANY: 'SET_MANY',
 }
 
 const initialOptions = {
@@ -42,6 +43,17 @@ const reducer = (state, action) => {
       return { ...state, alignment: action.payload };
     case actions.SET_SRC:
       return { ...state, src: action.payload };
+    case actions.SET_MANY:
+      return {
+        ...state,
+        src: action?.payload?.src || state.src,
+        width: action?.payload?.width || state.width,
+        height: action?.payload?.height || state.height,
+        blur: action?.payload?.blur ? [action.payload.blur] : state.blur,
+        quality: action?.payload?.quality ? [action.payload.quality] : state.quality,
+        crop: action?.payload?.crop ? [action.payload.crop] : state.crop,
+        alignment: action?.payload?.alignment ? [action.payload.alignment] : state.alignment,
+      }
     case actions.RESET:
       return initialOptions;
     default:
@@ -56,11 +68,14 @@ export const AssetOptionsProvider = ({ children }) => {
   const { setResult } = useResults();
 
   useEffect(() => {
-    const src = router?.query?.src;
-    if (src) {
-      dipatchFactory(dispatch, actions.SET_SRC, src);
-    }
-  }, [router])
+    dipatchFactory(dispatch, actions.SET_MANY, {
+      src: router?.query?.src,
+      quality: router?.query?.q,
+      width: router?.query?.w,
+      height: router?.query?.h,
+      blur: Number(router?.query?.b),
+    });
+  }, [router.query])
 
   const generateURL = useCallback(() => {
     const [blur] = state.blur;
