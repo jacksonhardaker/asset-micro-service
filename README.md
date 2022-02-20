@@ -8,7 +8,7 @@ Several functions of the `sharp` API have been exposed via the `/api/process` en
 
 `/api/(process|p|sharp|s)` or `/(process|p|sharp|s)`
 
-Example: [https://sharpify.vercel.app/api/process?src=DSC_2763.jpg&w=600](https://sharpify.vercel.app/api/process?src=https://sharpify.vercel.app/sample.jpg&w=600)
+Example: [https://sharpify.vercel.app/api/process?src=https://sharpify.vercel.app/sample.jpg&w=600](https://sharpify.vercel.app/api/process?src=https://sharpify.vercel.app/sample.jpg&w=600)
 
 The follow query params are supported:
 
