@@ -2,6 +2,12 @@
 
 A lightweight Next.js app wrapping the [sharp](https://sharp.pixelplumbing.com/) lib to use as an image optimization service.
 
+##
+
+The simple UI provides a convenient way to manipulate the various options and output a preview of the image + the generated URL.
+
+Example: [https://sharpify.vercel.app/?src=https://sharpify.vercel.app/sample.jpg](https://sharpify.vercel.app/?src=https://sharpify.vercel.app/sample.jpg)
+
 ## API
 
 Several functions of the `sharp` API have been exposed via the `/api/process` endpoint. In addition to this, the endpoint can be referenced with the following aliases:

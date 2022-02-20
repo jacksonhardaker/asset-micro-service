@@ -1,4 +1,5 @@
-import { useContext, createContext, useReducer, useCallback } from 'react';
+import { useRouter } from 'next/router';
+import { useContext, createContext, useReducer, useCallback, useEffect } from 'react';
 import { useResults } from './ResultsContext';
 
 export const actions = {
@@ -13,6 +14,7 @@ export const actions = {
 }
 
 const initialOptions = {
+  src: undefined,
   blur: [0],
   quality: [60],
   crop: [],
@@ -21,6 +23,8 @@ const initialOptions = {
 
 const assetOptionsState = createContext(initialOptions);
 const assetOptionsDispatch = createContext();
+
+const dipatchFactory = (dispatch, type, payload) => dispatch({ type, payload });
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -46,8 +50,17 @@ const reducer = (state, action) => {
 };
 
 export const AssetOptionsProvider = ({ children }) => {
+  const router = useRouter();
+  const initialSrc = router.query?.src;
   const [state, dispatch] = useReducer(reducer, initialOptions);
   const { setResult } = useResults();
+
+  useEffect(() => {
+    const src = router?.query?.src;
+    if (src) {
+      dipatchFactory(dispatch, actions.SET_SRC, src);
+    }
+  }, [router])
 
   const generateURL = useCallback(() => {
     const [blur] = state.blur;
@@ -68,7 +81,7 @@ export const AssetOptionsProvider = ({ children }) => {
 
     const queryString = Object.entries({ ...params }).reduce((queryString, [key, value]) => value ? `${queryString}&${key}=${value}` : queryString, '');
 
-    return `${window.location.origin}/api/process?${queryString}`;
+    return `${window.location.origin}/p?${queryString}`;
   }, [state]);
 
   const generateAndStoreResult = () => {
@@ -97,5 +110,5 @@ export const useAssetOptionsState = () => useContext(assetOptionsState);
 export const useAssetOptionsDispatch = () => {
   const dispatch = useContext(assetOptionsDispatch);
 
-  return (type, payload) => dispatch({ type, payload });
+  return (type, payload) => dipatchFactory(dispatch, type, payload);
 };
