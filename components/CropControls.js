@@ -6,6 +6,9 @@ import { useAssetOptionsDispatch, useAssetOptionsState, actions } from '../conte
 const cropOptions = [
   { label: 'Contain', id: 'contain' },
   { label: 'Cover', id: 'cover' },
+  { label: 'Inside', id: 'inside' },
+  { label: 'Outside', id: 'outside' },
+  { label: 'Fill', id: 'fill' },
 ];
 
 const alignmentOptions = [
@@ -43,7 +46,7 @@ export const CropControls = () => {
           value={crop}
           placeholder="Crop?"
           onChange={params => dispatch(actions.SET_CROP, params.value)}
-          { ...miscSelectOptions }
+          {...miscSelectOptions}
         />
       </FormControl>
       {crop[0] && <FormControl
@@ -53,7 +56,7 @@ export const CropControls = () => {
           value={alignment}
           placeholder="Alignment"
           onChange={params => dispatch(actions.SET_ALIGNMENT, params.value)}
-          { ...miscSelectOptions }
+          {...miscSelectOptions}
         />
       </FormControl>}
     </Cell>

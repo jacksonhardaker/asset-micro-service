@@ -1,7 +1,7 @@
 import { useContext, createContext, useReducer, useCallback } from 'react';
 import { useResults } from './ResultsContext';
 
-const baseURL = 'https://asset-micro-service.now.sh/api/process';
+const baseURL = 'api/sharp';
 
 export const actions = {
   SET_BLUR: 'SET_BLUR',
@@ -57,23 +57,23 @@ export const AssetOptionsProvider = ({ children }) => {
     const optimizeForWebEnabled = quality < 100;
     const [crop] = state.crop;
     const [alignment] = state.alignment;
-    
+
     const params = {
       src: state.src,
       w: state.width || undefined,
       h: state.height || undefined,
       b: blur > 0 ? blur : undefined,
-      raw: !optimizeForWebEnabled || undefined,
       q: optimizeForWebEnabled ? quality : undefined,
+      fit: crop?.id || undefined
     };
 
-    const cropParams = crop && alignment ? {
-      [crop.id]: alignment.id
-    } : {};
+    // const cropParams = crop && alignment ? {
+    //   [crop.id]: alignment.id
+    // } : {};
 
-    const queryString = Object.entries({ ...params, ...cropParams }).reduce((queryString, [key, value]) => value ? `${queryString}&${key}=${value}` : queryString, '');
+    const queryString = Object.entries({ ...params, /*...cropParams*/ }).reduce((queryString, [key, value]) => value ? `${queryString}&${key}=${value}` : queryString, '');
 
-    return `${baseURL}?${queryString}`;
+    return `${window.location.origin}/api/sharp?${queryString}`;
   }, [state]);
 
   const generateAndStoreResult = () => {
