@@ -1,5 +1,11 @@
 import { useRouter } from 'next/router';
-import { useContext, createContext, useReducer, useCallback, useEffect } from 'react';
+import {
+  useContext,
+  createContext,
+  useReducer,
+  useCallback,
+  useEffect,
+} from 'react';
 import { useResults } from './ResultsContext';
 
 export const actions = {
@@ -12,7 +18,7 @@ export const actions = {
   SET_SRC: 'SET_SRC',
   RESET: 'RESET',
   SET_MANY: 'SET_MANY',
-}
+};
 
 const initialOptions = {
   src: undefined,
@@ -50,10 +56,14 @@ const reducer = (state, action) => {
         width: action?.payload?.width || state.width,
         height: action?.payload?.height || state.height,
         blur: action?.payload?.blur ? [action.payload.blur] : state.blur,
-        quality: action?.payload?.quality ? [action.payload.quality] : state.quality,
+        quality: action?.payload?.quality
+          ? [action.payload.quality]
+          : state.quality,
         crop: action?.payload?.crop ? [action.payload.crop] : state.crop,
-        alignment: action?.payload?.alignment ? [action.payload.alignment] : state.alignment,
-      }
+        alignment: action?.payload?.alignment
+          ? [action.payload.alignment]
+          : state.alignment,
+      };
     case actions.RESET:
       return initialOptions;
     default:
@@ -63,7 +73,6 @@ const reducer = (state, action) => {
 
 export const AssetOptionsProvider = ({ children }) => {
   const router = useRouter();
-  const initialSrc = router.query?.src;
   const [state, dispatch] = useReducer(reducer, initialOptions);
   const { setResult } = useResults();
 
@@ -75,7 +84,7 @@ export const AssetOptionsProvider = ({ children }) => {
       height: router?.query?.h,
       blur: Number(router?.query?.b),
     });
-  }, [router.query])
+  }, [router.query]);
 
   const generateURL = useCallback(() => {
     const [blur] = state.blur;
@@ -94,21 +103,23 @@ export const AssetOptionsProvider = ({ children }) => {
       p: alignment?.id || undefined,
     };
 
-    const queryString = Object.entries({ ...params }).reduce((queryString, [key, value]) => value ? `${queryString}&${key}=${value}` : queryString, '');
+    const queryString = Object.entries({ ...params }).reduce(
+      (queryString, [key, value]) =>
+        value ? `${queryString}&${key}=${value}` : queryString,
+      ''
+    );
 
     return `${window.location.origin}/p?${queryString}`;
   }, [state]);
 
   const generateAndStoreResult = () => {
-    setResult(
-      generateURL()
-    );
-  }
+    setResult(generateURL());
+  };
 
   const value = {
     ...state,
     generateURL,
-    generateAndStoreResult
+    generateAndStoreResult,
   };
 
   return (
